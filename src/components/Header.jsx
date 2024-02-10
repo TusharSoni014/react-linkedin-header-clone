@@ -7,14 +7,20 @@ import { RiMessage2Fill } from "react-icons/ri";
 import { TbBellRinging2Filled } from "react-icons/tb";
 import { BsFillGrid3X3GapFill } from "react-icons/bs";
 import HeaderLinks from "./HeaderLinks";
-import { useRecoilValue } from "recoil";
-import { jobsAtom, messagingAtom, networkAtom, notificationsAtom } from "../atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import {
+  jobsAtom,
+  messagingAtom,
+  networkAtom,
+  notificationsAtom,
+} from "../atoms";
 
 export default function Header() {
   const networkNotifications = useRecoilValue(networkAtom);
   const jobsNotifications = useRecoilValue(jobsAtom);
   const notificationsNotifications = useRecoilValue(notificationsAtom);
-  const messagingNotifications = useRecoilValue(messagingAtom);
+  const [messagingNotifications, setMessagingNotifications] =
+    useRecoilState(messagingAtom);
 
   const headerIcons = [
     {
@@ -74,7 +80,10 @@ export default function Header() {
         </div>
         <div className="__extra px-4 flex gap-2">
           <HeaderLinks length={"90px"} item={business} />
-          <div className="__premium text-yellow-600 text-xs w-[100px] flex justify-center items-center text-center underline cursor-pointer hover:text-yellow-400">
+          <div
+            onClick={() => setMessagingNotifications((val) => val + 1)}
+            className="__premium text-yellow-600 text-xs w-[100px] flex justify-center items-center text-center underline cursor-pointer hover:text-yellow-400"
+          >
             Learn New Skills with Premium
           </div>
         </div>
