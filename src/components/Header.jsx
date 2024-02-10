@@ -7,8 +7,15 @@ import { RiMessage2Fill } from "react-icons/ri";
 import { TbBellRinging2Filled } from "react-icons/tb";
 import { BsFillGrid3X3GapFill } from "react-icons/bs";
 import HeaderLinks from "./HeaderLinks";
+import { useRecoilValue } from "recoil";
+import { jobsAtom, messagingAtom, networkAtom, notificationsAtom } from "../atoms";
 
 export default function Header() {
+  const networkNotifications = useRecoilValue(networkAtom);
+  const jobsNotifications = useRecoilValue(jobsAtom);
+  const notificationsNotifications = useRecoilValue(notificationsAtom);
+  const messagingNotifications = useRecoilValue(messagingAtom);
+
   const headerIcons = [
     {
       name: "Home",
@@ -18,27 +25,27 @@ export default function Header() {
     {
       name: "My Network",
       icon: <HiUsers />,
-      notifications: 99,
+      notifications: networkNotifications,
     },
     {
       name: "Jobs",
       icon: <BsFillBriefcaseFill />,
-      notifications: 2,
+      notifications: jobsNotifications,
     },
     {
       name: "Messaging",
       icon: <RiMessage2Fill />,
-      notifications: 5,
+      notifications: notificationsNotifications,
     },
     {
       name: "Notifications",
       icon: <TbBellRinging2Filled />,
-      notifications: 3,
+      notifications: messagingNotifications,
     },
     {
       name: "Me ▼",
       icon: <FaUserCircle />,
-      notifications: 3,
+      notifications: 0,
     },
   ];
   const business = {
@@ -62,7 +69,7 @@ export default function Header() {
       <div className="__right_parent flex">
         <div className="flex justify-center items-center border-r-[1px] border-slate-700">
           {headerIcons.map((item) => {
-            return <HeaderLinks item={item} />;
+            return <HeaderLinks length={"80px"} item={item} />;
           })}
         </div>
         <div className="__extra px-4 flex gap-2">
