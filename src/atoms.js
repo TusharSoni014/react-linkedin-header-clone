@@ -1,4 +1,4 @@
-import { atom } from "recoil";
+import { atom, selector } from "recoil";
 
 export const networkAtom = atom({
   key: "networkAtom",
@@ -15,4 +15,20 @@ export const notificationsAtom = atom({
 export const messagingAtom = atom({
   key: "messagingAtom",
   default: 1,
+});
+
+export const totalNotifications = selector({
+  key: "totalNotifications",
+  get: ({ get }) => {
+    const networkNotifications = get(networkAtom);
+    const jobsNotifications = get(jobsAtom);
+    const notiNotifications = get(notificationsAtom);
+    const messagingNotifications = get(messagingAtom);
+    return (
+      networkNotifications +
+      jobsNotifications +
+      notiNotifications +
+      messagingNotifications
+    );
+  },
 });

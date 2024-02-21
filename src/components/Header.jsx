@@ -13,6 +13,7 @@ import {
   messagingAtom,
   networkAtom,
   notificationsAtom,
+  totalNotifications,
 } from "../atoms";
 
 export default function Header() {
@@ -21,6 +22,7 @@ export default function Header() {
   const notificationsNotifications = useRecoilValue(notificationsAtom);
   const [messagingNotifications, setMessagingNotifications] =
     useRecoilState(messagingAtom);
+  const totalNotificationsCount = useRecoilValue(totalNotifications);
 
   const headerIcons = [
     {
@@ -51,7 +53,7 @@ export default function Header() {
     {
       name: "Me ▼",
       icon: <FaUserCircle />,
-      notifications: 0,
+      notifications: totalNotificationsCount,
     },
   ];
   const business = {
@@ -74,12 +76,27 @@ export default function Header() {
       </div>
       <div className="__right_parent flex">
         <div className="flex justify-center items-center border-r-[1px] border-slate-700">
-          {headerIcons.map((item) => {
-            return <HeaderLinks length={"80px"} item={item} />;
+          {headerIcons.map((item, index) => {
+            return <HeaderLinks key={index} length={80} item={item} />;
           })}
         </div>
         <div className="__extra px-4 flex gap-2">
-          <HeaderLinks length={"90px"} item={business} />
+          <div
+            className={`__header_link flex justify-center items-center w-[90px] h-[52px] cursor-pointer relative flex-col text-white/60 transition hover:text-white`}
+          >
+            {business.notifications > 0 &&
+              (business.notifications < 100 ? (
+                <div className="__notifications absolute top-1 right-4 px-[5px] py-[1px] rounded-full bg-red-700 text-white text-[11px]">
+                  {business.notifications}
+                </div>
+              ) : (
+                <div className="__notifications absolute top-1 right-3 px-[5px] py-[1px] rounded-full bg-red-700 text-white text-[11px]">
+                  99+
+                </div>
+              ))}
+            <div className="__icon text-[22px]">{business.icon}</div>
+            <small className="">{business.name}</small>
+          </div>
           <div
             onClick={() => setMessagingNotifications((val) => val + 1)}
             className="__premium text-yellow-600 text-xs w-[100px] flex justify-center items-center text-center underline cursor-pointer hover:text-yellow-400"
